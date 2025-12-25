@@ -1,13 +1,12 @@
-/* Базовая раскладка */
 .app {
   max-width: 960px;
   margin: 0 auto;
-  padding: 1.5rem;
-  color: #f6f6f6;
+  padding: 24px;
+  color: #000000;
   font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 16px;
 }
 
 h1 {
@@ -16,36 +15,36 @@ h1 {
 
 .request-form,
 .response,
-.history {
-  background: #1c1c1c;
-  border: 1px solid #2a2a2a;
+.saved {
+  background: #e4e4e4;
+  border: 2px solid #2a2a2a;
   border-radius: 10px;
-  padding: 1rem;
+  padding: 16px;
 }
 
 .request-row {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
-  margin-bottom: 0.75rem;
+  gap: 6px;
+  margin-bottom: 12px;
 }
 
 label {
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
-  font-size: 0.95rem;
+  gap: 5px;
+  font-size: 15px;
 }
 
 input,
 select,
 textarea {
   width: 100%;
-  padding: 0.65rem 0.75rem;
+  padding: 10px 12px;
   border-radius: 8px;
   border: 1px solid #343434;
-  background: #111;
-  color: #f6f6f6;
+  background: #ffffff;
+  color: #000000;
   font: inherit;
 }
 
@@ -56,11 +55,11 @@ textarea {
 
 button {
   width: fit-content;
-  padding: 0.65rem 1.25rem;
+  padding: 10px 20px;
   border-radius: 8px;
   border: 1px solid #3a3a3a;
-  background: #2f6feb;
-  color: white;
+  background: #ffffff;
+  color: rgb(0, 0, 0);
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s ease, transform 0.05s ease;
@@ -71,8 +70,8 @@ button:disabled {
   cursor: not-allowed;
 }
 
-button:not(:disabled):hover {
-  background: #2659c4;
+button:hover {
+  background: #c1c1c1;
 }
 
 button:not(:disabled):active {
@@ -81,38 +80,69 @@ button:not(:disabled):active {
 
 .request-actions {
   flex-direction: row;
-  gap: 0.5rem;
+  gap: 8px;
   flex-wrap: wrap;
   align-items: center;
 }
 
 .response pre {
-  background: #111;
-  padding: 0.75rem;
+  background: #ffffff;
+  padding: 12px;
   border-radius: 8px;
   overflow: auto;
   white-space: pre-wrap;
   word-break: break-word;
 }
 
+.response-body pre{
+  max-height: 400px;
+  overflow-y: auto;
+}
+
 .response-error {
   color: #ff8c8c;
 }
 
-.history ul {
+.saved ul {
   list-style: none;
   padding: 0;
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 8px;
 }
 
-.history li button {
-  width: 100%;
+.saved-item {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.saved-select {
+  flex: 1;
   text-align: left;
-  background: #222;
+  background: #ffffff;
   border-color: #333;
   border-radius: 8px;
+}
+
+.saved-delete {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  min-width: 32px;
+  background: #ff4444;
+  color: white;
+  border-color: #cc0000;
+  font-size: 24px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+}
+
+.saved-delete:hover {
+  background: #cc0000;
 }
 

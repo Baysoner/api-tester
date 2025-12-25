@@ -45,7 +45,7 @@ function RequestForm({
 
       <div className="request-row">
         <label>
-          Headers (one per line, format: Key: Value)
+          Headers
           <textarea
             value={headersText}
             onChange={(e) => onHeadersChange(e.target.value)}

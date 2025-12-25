@@ -30,7 +30,7 @@ function ResponseView({ loading, error, response }) {
       )}
 
       {!response && !error && !loading && (
-        <p>No response yet. Click "Send".</p>
+        <p>No response yet. Click "Send"</p>
       )}
     </div>
   )

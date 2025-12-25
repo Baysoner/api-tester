@@ -1,12 +1,12 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 import RequestForm from './components/RequestForm.jsx'
 import ResponseView from './components/ResponseView.jsx'
-import RequestHistory from './components/RequestHistory.jsx'
-import { useLocalStorage } from './hooks/useLocalStorage.jsx'
+import RequestSaved from './components/RequestSaved.jsx'
+import { getFromStorage, saveToStorage } from './utils/localStorage.js'
 
 function App() {
-  const [url, setUrl] = useState('https://jsonplaceholder.typicode.com/todos/1')
+  const [url, setUrl] = useState('')
   const [method, setMethod] = useState('GET')
   const [headersText, setHeadersText] = useState('')
   const [bodyText, setBodyText] = useState('')
@@ -14,7 +14,11 @@ function App() {
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
 
-  const [history, setHistory] = useLocalStorage('api-history', [])
+  const [saved, setSaved] = useState(() => getFromStorage('api-saved', []))
+
+  useEffect(() => {
+    saveToStorage('api-saved', saved)
+  }, [saved])
 
   const parseHeaders = (raw) => {
     const result = {}
@@ -46,11 +50,16 @@ function App() {
         headers['Content-Type'] = 'application/json'
       }
 
-      const res = await fetch(url, {
+      const fetchOptions = {
         method,
-        headers,
         body: bodyPayload,
-      })
+      }
+
+      if (Object.keys(headers).length > 0) {
+        fetchOptions.headers = headers
+      }
+
+      const res = await fetch(url, fetchOptions)
       const text = await res.text()
 
       let data
@@ -67,7 +76,7 @@ function App() {
         body: data,
       })
     } catch (err) {
-      setError(err.message || 'Request error')
+      setError(err.message || 'Request failed')
     } finally {
       setLoading(false)
     }
@@ -75,17 +84,21 @@ function App() {
 
   const handleSave = () => {
     if (!url.trim()) return
-    setHistory((prev) => {
+    setSaved((prev) => {
       const next = [{ method, url, headersText, bodyText }, ...prev]
       return next.slice(0, 20)
     })
   }
 
-  const handleSelectHistory = (item) => {
+  const handleSelectSaved = (item) => {
     setMethod(item.method)
     setUrl(item.url)
     setHeadersText(item.headersText || '')
     setBodyText(item.bodyText || '')
+  }
+
+  const handleDeleteSaved = (index) => {
+    setSaved((prev) => prev.filter((_, i) => i !== index))
   }
 
   return (
@@ -112,9 +125,10 @@ function App() {
         response={response}
       />
 
-      <RequestHistory
-        history={history}
-        onSelect={handleSelectHistory}
+      <RequestSaved
+        saved={saved}
+        onSelect={handleSelectSaved}
+        onDelete={handleDeleteSaved}
       />
     </div>
   )
